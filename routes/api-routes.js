@@ -1,15 +1,15 @@
-const Router = require('express').Router();
-const fs = require ("fs");
-const { v4: uuidv4 } = require('uuid');
+const router = require("express").Router();
+const fs = require("fs");
+const { v4: uuidv4 } = require("uuid");
 
 // GET Route for retrieving all the tips
-Router.get('/api/notes', async (req, res) => { 
+router.get("/api/notes", async (req, res) => {
   const dbjson = await JSON.parse
-  fs.readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
+  fs.readFromFile("./db/db.json").then((data) => res.json(JSON.parse(data)))
 });
 
 // POST Route, defines post request
-Router.post('/api/notes', (req, res) => {
+router.post("/api/notes", (req, res) => {
   console.log(req.body);
 
   const { username, topic, tip } = req.body;
@@ -22,11 +22,11 @@ Router.post('/api/notes', (req, res) => {
       note_id: uuidv4(),
     };
 
-    readAndAppend(newNote, './db/db.json');
+    readAndAppend(newNote, "./db/db.json");
     res.json(`note added successfully`);
   } else {
-    res.error('Error in adding notes');
+    res.error("Error in adding notes");
   }
 });
 
-module.exports = Router;
+module.exports = router;
