@@ -3,30 +3,38 @@ const fs = require("fs");
 const { v4: uuidv4 } = require("uuid");
 
 // GET Route for retrieving all the tips
-router.get("/api/notes", async (req, res) => {
-  const dbjson = await JSON.parse
-  fs.readFromFile("./db/db.json").then((data) => res.json(JSON.parse(data)))
+router.get("/api/notes", (req, res) => {
+  fs.readFile("./db/db.json", "utf-8", (err, data)=>{
+    if (err) throw err
+
+    return res.json(JSON.parse(data))
+  })
+  
 });
 
 // POST Route, defines post request
 router.post("/api/notes", (req, res) => {
-  console.log(req.body);
+  
 
-  const { username, topic, tip } = req.body;
+ const dbData= JSON.parse(fs.readFileSync("db/db.json"))
 
-  if (req.body) {
-    const newNote = {
-      title,
-      body,
-      topic,
-      note_id: uuidv4(),
-    };
+ const newNote= req.body;
+ newNote.id= uuidv4()
 
-    readAndAppend(newNote, "./db/db.json");
-    res.json(`note added successfully`);
-  } else {
-    res.error("Error in adding notes");
-  }
+ dbData.push(newNote)
+
+ fs.writeFileSync("db/db.json", JSON.stringify(dbData))
+res.json(dbData)
+ 
 });
+
+router.delete("/api/notes/:id", (req, res)=>{
+  const dbData= JSON.parse(fs.readFileSync("db/db.json"))
+
+  const removeNote= dbData.filter((note)=>note.id !== req.params.id);
+
+  fs.writeFileSync("db/db.json", JSON.stringify(removeNote))
+  res.json(removeNote)
+})
 
 module.exports = router;
