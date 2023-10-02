@@ -41,4 +41,9 @@ Class assignments
 Tutors 
 
 ### Links 
-GitHub - Johnnae/11-notes- 
+https://github.com/Johnnae/11-notes-.git 
+
+https://note-taker-908-7170bf0f51df.herokuapp.com/ | https://git.heroku.com/note-taker-908.git
+
+
+
